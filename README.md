@@ -1,2 +1,2 @@
-# my-fullstack-app
+# My-fullstack-app
 This is a Spring Boot / Angular application for learning purpose
