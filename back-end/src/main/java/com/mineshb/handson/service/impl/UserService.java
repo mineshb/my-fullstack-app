@@ -89,4 +89,16 @@ public class UserService implements IUserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param keyword Keyword to be searched
+     * @return List of Users with matching keyword in any field
+     */
+    @Override
+    public List<UserDto> searchUsersByKeyword(String keyword) {
+        return userRepository.searchByAnyField(keyword)
+                .stream()
+                .map(user -> UserMapper.mapToUserDto(user, new UserDto())) // Create a new UserDto for each user
+                .collect(Collectors.toList());
+    }
+
 }

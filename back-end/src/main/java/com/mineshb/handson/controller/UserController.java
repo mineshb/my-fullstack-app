@@ -150,6 +150,29 @@ public class UserController {
         }
     }
 
+    @Operation(
+            summary = "Fetch User Details by Keyword REST API",
+            description = "REST API to fetch User details based on a keyword"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/findByKeyword")
+    public ResponseEntity<List<UserDto>> searchUsersByKeyword(@RequestParam String keyword) {
+        List<UserDto> userDtos = iUserService.searchUsersByKeyword(keyword);
+        return ResponseEntity.status(HttpStatus.OK).body(userDtos);
+    }
 
     @Operation(
             summary = "Delete User Details REST API",

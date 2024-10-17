@@ -14,4 +14,6 @@ public interface IUserService {
     boolean deleteUser(String userName);
 
     List<UserDto> fetchAllUsers();
+
+    List<UserDto> searchUsersByKeyword(String name);
 }

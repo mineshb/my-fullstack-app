@@ -1,0 +1,76 @@
+@if (viewMode){
+    @if (currentUser.userName){
+    <h4>User</h4>
+    <div>
+      <label><strong>UserName:</strong></label> {{ currentUser.userName }}
+    </div>
+    <div>
+      <label><strong>First Name:</strong></label>
+      {{ currentUser.firstName }}
+    </div>
+    <div>
+        <label><strong>Last Name:</strong></label>
+        {{ currentUser.lastName }}
+      </div>
+      <div>
+        <label><strong>Email:</strong></label>
+        {{ currentUser.email }}
+      </div>
+  
+    <a class="badge badge-warning" routerLink="/users/{{currentUser.userName}}">
+      Edit
+    </a>
+    } @else {<p>Please click on a User...</p>}
+  } @else {
+    @if (currentUser.userName) {
+    <div class="edit-form">
+      <h4>User</h4>
+      <form>
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            [(ngModel)]="currentUser.firstName"
+            name="firstName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            [(ngModel)]="currentUser.lastName"
+            name="lastName"
+          />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              [(ngModel)]="currentUser.email"
+              name="email"
+            />
+          </div>
+      </form>
+  
+      <button class="badge badge-danger mr-2" (click)="deleteUser()">
+        Delete
+      </button>
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateUser()">
+        Update
+      </button>
+      <a class="badge badge-warning" routerLink="/users">
+        Back to List
+      </a>
+      <p>{{ message }}</p>
+    </div>
+    } @else {<p>Cannot access this User...</p>}
+  }

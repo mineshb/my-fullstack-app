@@ -22,3 +22,45 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+
+# Spring Boot specific
+# Spring Boot configuration files
+*.properties
+*.yml
+*.yaml
+
+# Ignore dependency directories
+/.mvn/
+target/
+build/
+
+# Angular specific
+# Node modules
+node_modules/
+
+# Compiled output
+/dist/
+out-tsc/
+
+# IDE specific files
+.idea/
+*.iml
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compiled JavaScript files
+*.js
+*.js.map
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Miscellaneous
+.DS_Store
+Thumbs.db

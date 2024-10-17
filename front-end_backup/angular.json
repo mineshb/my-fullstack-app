@@ -5,17 +5,7 @@
   "projects": {
     "front-end": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "standalone": false
-        },
-        "@schematics/angular:directive": {
-          "standalone": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -37,7 +27,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -94,14 +89,9 @@
               "src/assets"
             ],
             "styles": [
-                "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "src/styles.css"
+              "src/styles.css"
             ],
-            "scripts": [
-                "node_modules/jquery/dist/jquery.slim.min.js",
-                "node_modules/popper.js/dist/umd/popper.min.js",
-                "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            "scripts": []
           }
         }
       }
