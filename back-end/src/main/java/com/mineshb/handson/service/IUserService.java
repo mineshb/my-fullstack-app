@@ -1,6 +1,7 @@
 package com.mineshb.handson.service;
 
 import com.mineshb.handson.dto.UserDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IUserService {
 
     boolean deleteUser(String userName);
 
-    List<UserDto> fetchAllUsers();
+    Page<UserDto> fetchAllUsers(int page);
 
-    List<UserDto> searchUsersByKeyword(String name);
+    Page<UserDto> searchUsersByKeyword(String keyword, int page);
 }

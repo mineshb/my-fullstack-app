@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { API_CONFIG } from '../api.config';
+import { PaginatedResponse } from '../models/paginated-response.model';
 
 const baseUrl = API_CONFIG.users;
 
@@ -13,8 +14,8 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  fetchAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${baseUrl}/fetchAll`);
+  fetchAll(pageNo:number): Observable<PaginatedResponse<User>> {
+    return this.http.get<PaginatedResponse<User>>(`${baseUrl}/fetchAll?page=${pageNo-1}`);
   }
 
   fetch(userName:string): Observable<User> {
@@ -34,8 +35,8 @@ export class UserService {
     return this.http.delete(`${baseUrl}/delete?userName=${userName}`);
   }
 
-  findByName(name:string): Observable<User> {
-    return this.http.get<User>(`${baseUrl}/findByKeyword?keyword=${name}`);
+  findByKeyword(name:string, pageNo:number): Observable<PaginatedResponse<User>> {
+    return this.http.get<PaginatedResponse<User>>(`${baseUrl}/findByKeyword?keyword=${name}&page=${pageNo-1}`);
   }
 
 }

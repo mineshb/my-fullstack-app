@@ -11,7 +11,7 @@
           <button
             class="btn btn-outline-secondary"
             type="button"
-            (click)="searchName()"
+            (click)="pageNo = 1; searchName()"
           >
             Search
           </button>
@@ -20,19 +20,31 @@
     </div>
     <div class="col-md-6">
       <h4>Users List</h4>
-      <ul class="list-group">
-        @for (user of users; track user.userName; let i = $index) {
+      
+    
+      <ul class="list-group" *ngIf="users?.length">
         <li
           class="list-group-item"
+          *ngFor="let user of users | paginate: { 
+              id: 'user-pagination', 
+              currentPage: pageNo, 
+              itemsPerPage: itemsPerPage, 
+              totalItems: totalElements 
+            }; let i = index;"
           [class.active]="i == currentIndex"
-          (click)="setActiveUser(user, i)"
-        >
-          {{ user.userName }}
+          (click)="setActiveUser(user, i)">
+          {{ user.firstName }} | {{ user.lastName }}
         </li>
-        }
       </ul>
-  
       
+      <pagination-controls
+      id="user-pagination"
+      previousLabel="Prev"
+      nextLabel="Next"
+      [maxSize]="5"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)">
+    </pagination-controls>
     </div>
     <div class="col-md-6">
       <app-user-details

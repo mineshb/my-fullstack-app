@@ -8,15 +8,19 @@ import { UserService } from '../../services/user.service';
   styleUrl: './users-list.component.css'
 })
 export class UsersListComponent implements OnInit {
-  users?: User[];
+  users: User[] = [];
   currentUser: User = {
     userName: '',
     email: '',
     firstName: '',
     lastName: ''
   };
-  currentIndex = -1;
-  name = '';
+  currentIndex: number = -1;
+  name: string = '';
+  pageNo: number = 1;
+  itemsPerPage: number = 10;
+  totalElements: number = 0;
+  totalPages: number = 0;
 
   constructor(private userService: UserService) { }
 
@@ -25,11 +29,13 @@ export class UsersListComponent implements OnInit {
   }
 
   retrieveUsers(): void {
-    this.userService.fetchAll() 
+    this.userService.fetchAll(this.pageNo) 
       .subscribe({
         next: (data) => {
-          this.users = data;
           console.log(data);
+          this.users = data?.content as User[] || [];         
+          this.totalElements = data?.totalElements || 0;
+          this.totalPages = data?.totalPages || 0;
         },
         error: (e) => console.error(e)
       });
@@ -60,14 +66,27 @@ export class UsersListComponent implements OnInit {
     };
     this.currentIndex = -1;
 
-    this.userService.findByName(this.name)
+    this.userService.findByKeyword(this.name, this.pageNo)
       .subscribe({
         next: (data) => {
-          this.users = Array.isArray(data) ? data : [data];;
           console.log(data);
+          this.users = data?.content as User[] || [];          
+          this.totalElements = data?.totalElements || 0;
+          this.totalPages = data?.totalPages || 0;
         },
         error: (e) => console.error(e)
       });
+  }
+
+  handlePageChange(event:any) {
+    this.pageNo = event;
+    if(this.name != "")  {
+      console.log("Search by Keyword, Page No = " + this.pageNo)
+      this.searchName();
+    } else {
+      console.log("Regular Refresh, Page No = " + this.pageNo)
+      this.retrieveUsers();
+    }
   }
 
 }

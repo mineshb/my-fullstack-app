@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AddUserComponent } from './compoents/add-user/add-user.component';
 import { UserDetailsComponent } from './compoents/user-details/user-details.component';
 import { UsersListComponent } from './compoents/users-list/users-list.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -16,12 +16,14 @@ import { UsersListComponent } from './compoents/users-list/users-list.component'
     AddUserComponent,
     UserDetailsComponent,
     UsersListComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
