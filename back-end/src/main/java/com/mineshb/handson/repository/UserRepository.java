@@ -1,6 +1,8 @@
 package com.mineshb.handson.repository;
 
 import com.mineshb.handson.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +14,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 
     @Query("SELECT u FROM UserEntity u WHERE u.userName LIKE %?1% OR u.firstName LIKE %?1% OR u.lastName LIKE %?1% OR u.email LIKE %?1%")
-    List<UserEntity> searchByAnyField(String searchTerm);
+    Page<UserEntity> searchByAnyField(String searchTerm, Pageable pageable);
 
 }

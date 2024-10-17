@@ -5,6 +5,7 @@ import com.mineshb.handson.dto.ErrorResponseDto;
 import com.mineshb.handson.dto.ResponseDto;
 import com.mineshb.handson.dto.UserDto;
 import com.mineshb.handson.service.IUserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -109,8 +110,8 @@ public class UserController {
     }
     )
     @GetMapping("/fetchAll")
-    public ResponseEntity<List<UserDto>> fetchAllUserDetails() {
-        List<UserDto> userDtos = iUserService.fetchAllUsers();
+    public ResponseEntity<Page<UserDto>> fetchAllUserDetails(@RequestParam(defaultValue = "1") int page) {
+        Page<UserDto> userDtos = iUserService.fetchAllUsers(page);
         return ResponseEntity.status(HttpStatus.OK).body(userDtos);
     }
 
@@ -169,8 +170,10 @@ public class UserController {
     }
     )
     @GetMapping("/findByKeyword")
-    public ResponseEntity<List<UserDto>> searchUsersByKeyword(@RequestParam String keyword) {
-        List<UserDto> userDtos = iUserService.searchUsersByKeyword(keyword);
+
+    public ResponseEntity<Page<UserDto>> searchUsersByKeyword(@RequestParam(defaultValue = "") String keyword,
+                                                              @RequestParam(defaultValue = "1") int page) {
+        Page<UserDto> userDtos = iUserService.searchUsersByKeyword(keyword, page);
         return ResponseEntity.status(HttpStatus.OK).body(userDtos);
     }
 

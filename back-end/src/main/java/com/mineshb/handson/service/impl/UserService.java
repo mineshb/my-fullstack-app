@@ -1,5 +1,7 @@
 package com.mineshb.handson.service.impl;
 
+import com.mineshb.handson.config.PaginationConfig;
+
 import com.mineshb.handson.dto.UserDto;
 import com.mineshb.handson.entity.UserEntity;
 import com.mineshb.handson.exception.ResourceNotFoundException;
@@ -8,17 +10,19 @@ import com.mineshb.handson.mapper.UserMapper;
 import com.mineshb.handson.repository.UserRepository;
 import com.mineshb.handson.service.IUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PaginationConfig paginationConfig;
     /**
      * @param userDto - User Object
      */
@@ -79,26 +83,29 @@ public class UserService implements IUserService {
     }
 
     /**
+     * @param page - Page Number
+     * @param size - Page Size e.g., Number of Items per Page
      * @return List of all the User Details
      */
     @Override
-    public List<UserDto> fetchAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(user -> UserMapper.mapToUserDto(user, new UserDto())) // Create a new UserDto for each user
-                .collect(Collectors.toList());
+    public Page<UserDto> fetchAllUsers(int page) {
+        Pageable pageable = PageRequest.of(page, paginationConfig.getDefaultPageSize());
+        Page<UserEntity> userPage = userRepository.findAll(pageable);
+        return userPage.map(user -> UserMapper.mapToUserDto(user, new UserDto()));
     }
 
     /**
      * @param keyword Keyword to be searched
+     * @param page - Page Number
+     * @param size - Page Size e.g., Number of Items per Page
      * @return List of Users with matching keyword in any field
      */
     @Override
-    public List<UserDto> searchUsersByKeyword(String keyword) {
-        return userRepository.searchByAnyField(keyword)
-                .stream()
-                .map(user -> UserMapper.mapToUserDto(user, new UserDto())) // Create a new UserDto for each user
-                .collect(Collectors.toList());
+    public Page<UserDto> searchUsersByKeyword(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, paginationConfig.getDefaultPageSize());
+        Page<UserEntity> userPage = userRepository.searchByAnyField(keyword, pageable);
+        return userPage.map(user -> UserMapper.mapToUserDto(user, new UserDto()));
     }
+
 
 }
